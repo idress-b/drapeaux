@@ -1,5 +1,9 @@
 .countries {
   text-align: center;
+  width: 95%;
+  max-width: 1144px;
+  margin: auto;
+
 
   .radio-container {
     justify-content: space-around;
@@ -20,6 +24,7 @@
       cursor: pointer;
     }
   }
+
   input[type="text"] {
     padding: 10px;
     border-radius: 40px;
