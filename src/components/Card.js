@@ -15,7 +15,7 @@ const Card = ({ country }) => {
           <h4>{country.capital}</h4>
           <p>Pop. {country.population.toLocaleString()}</p>
         </div>
-        {isDetailRendered && <p>Click!!!</p>}
+       
       </li>
     </>
   );
