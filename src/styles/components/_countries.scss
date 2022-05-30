@@ -30,6 +30,7 @@
 
     label {
       cursor: pointer;
+      margin-left: 10px;
     }
   }
 
@@ -52,10 +53,11 @@
   }
 
   button {
-    margin: 0 auto 20px;
-    background: none;
+    margin: 0 auto;
+    background: $white;
     border: 2px solid $color-1;
-    padding: 4px 10px;
+    width: 80%;
+    padding: 4px 20px;
     border-radius: 10px;
     cursor: pointer;
     transition: 0.2s;

@@ -39,6 +39,11 @@ const Countries = () => {
             ))}
           </ul>
         </div>
+
+        {selectedRadio && (
+          <button onClick={() => setSelectedRadio("")}>Reset</button>
+        )}
+
         <div className="radio-container">
           <h3>Ordre :</h3>
           <ul>
@@ -84,11 +89,6 @@ const Countries = () => {
             </li>
           </ul>
         </div>
-        {selectedRadio && (
-          <button onClick={() => setSelectedRadio("")}>
-            Annuler la recherche
-          </button>
-        )}
       </div>
       <div className="right-panel">
         <ul>
