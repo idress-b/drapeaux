@@ -1,86 +1,132 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
-import Card from './Card';
-
+import Card from "./Card";
 
 const Countries = () => {
-    const [data, setData] = useState([])
-    const [rangeValue, setRangeValue] = useState(36);
-    const [selectedRadio, setSelectedRadio] = useState("");
-    const [selectedSort, setSelectedSort] = useState('population')
-    const radios = ['Africa', 'America', 'Asia', 'Europe', 'Oceania'];
+  const [data, setData] = useState([]);
 
+  const [selectedRadio, setSelectedRadio] = useState("");
+  const [selectedSort, setSelectedSort] = useState("alphabet-az");
+  const radios = ["Africa", "America", "Asia", "Europe", "Oceania"];
 
+  useEffect(() => {
+    axios
+      .get("https://restcountries.com/v3.1/all")
+      .then((res) => setData(res.data));
+  }, []);
 
-    useEffect(() => {
-        axios
-            .get("https://restcountries.com/v3.1/all")
-            .then((res) => setData(res.data))
-    }, [])
+  return (
+    <div className="countries">
+      <div className="left-panel">
+        <h1> Découvre le monde</h1>
+        <h2>Trier Par :</h2>
 
-
-    return (
-        <div className='countries'>
-            <ul className="radio-container">
-                <input type="range" min="1" max="250" defaultValue={rangeValue}
-                    onChange={(e) => setRangeValue(e.target.value)} />
-                {radios.map((continent) =>
-                    <li key={continent}>
-                        <input
-                            type="radio"
-                            name="continentradio"
-                            id={continent}
-                            checked={continent === selectedRadio}
-                            onChange={(e) => setSelectedRadio(e.target.id)} />
-                        <label htmlFor={continent}>{continent}</label>
-                    </li>
-                )}
-            </ul>
-            <ul className="radio-container">
-                <li>Trier par :</li>
-                <li>
-                    <input type="radio"
-                        name="second-sort"
-                        id="population"
-                        checked={"population" === selectedSort}
-                        onChange={(e) => setSelectedSort(e.target.id)}
-                    />
-                    <label htmlFor="population">population</label>
-                </li>
-                <li>
-                    <input type="radio"
-                        name="second-sort"
-                        id="alphabet"
-                        checked={selectedSort === "alphabet"}
-                        onChange={(e) => setSelectedSort(e.target.id)}
-                    />
-                    <label htmlFor="alphabet">Odre Alphabétique</label>
-                </li>
-            </ul>
-            {selectedRadio && (<button onClick={() => setSelectedRadio("")}>Annuler la recherche</button>)}
-            <ul>
-
-                {data
-                    .filter((country) => country.continents[0].includes(selectedRadio))
-                    .slice(0, rangeValue)
-                    .sort((a, b) => {
-                        if (selectedSort == "population") {
-                            return (b.population - a.population)
-                        }
-
-                        else {
-                            /* permet de trier par ordre alphabétique en tenant compte de la ponctuation*/
-                            return a.translations.fra.common.localeCompare(b.translations.fra.common, 'fr', { ignorePunctuation: true })
-                        }
-                    })
-                    .map((country, index) => (<Card key={index} country={country} />))
-                }
-
-
-            </ul>
+        <div className="radio-container">
+          <h3>Continent</h3>
+          <ul>
+            {radios.map((continent) => (
+              <li key={continent}>
+                <input
+                  type="radio"
+                  name="continentradio"
+                  id={continent}
+                  checked={continent === selectedRadio}
+                  onChange={(e) => setSelectedRadio(e.target.id)}
+                />
+                <label htmlFor={continent}>{continent}</label>
+              </li>
+            ))}
+          </ul>
         </div>
-    );
+        <div className="radio-container">
+          <h3>Ordre :</h3>
+          <ul>
+            <li>
+              <input
+                type="radio"
+                name="second-sort"
+                id="alphabet-az"
+                checked={selectedSort === "alphabet-az"}
+                onChange={(e) => setSelectedSort(e.target.id)}
+              />
+              <label htmlFor="alphabet">Alphabétique A- Z</label>
+            </li>
+            <li>
+              <input
+                type="radio"
+                name="second-sort"
+                id="alphabet-za"
+                checked={selectedSort === "alphabet-za"}
+                onChange={(e) => setSelectedSort(e.target.id)}
+              />
+              <label htmlFor="alphabet">Alphabétique Z - A</label>
+            </li>
+            <li>
+              <input
+                type="radio"
+                name="second-sort"
+                id="population-croissante"
+                checked={"population-croissante" === selectedSort}
+                onChange={(e) => setSelectedSort(e.target.id)}
+              />
+              <label htmlFor="population">Population + au -</label>
+            </li>
+            <li>
+              <input
+                type="radio"
+                name="second-sort"
+                id="population-decroissante"
+                checked={"population-decroissante" === selectedSort}
+                onChange={(e) => setSelectedSort(e.target.id)}
+              />
+              <label htmlFor="population">Population - au +</label>
+            </li>
+          </ul>
+        </div>
+        {selectedRadio && (
+          <button onClick={() => setSelectedRadio("")}>
+            Annuler la recherche
+          </button>
+        )}
+      </div>
+      <div className="right-panel">
+        <ul>
+          {data
+            .filter((country) => country.continents[0].includes(selectedRadio))
+            .sort((a, b) => {
+              switch (selectedSort) {
+                case "population-croissante":
+                  return b.population - a.population;
+                  break;
+                case "population-decroissante":
+                  return a.population - b.population;
+                  break;
+                case "alphabet-az":
+                  /* permet de trier par ordre alphabétique en tenant compte de la ponctuation*/
+                  return a.translations.fra.common.localeCompare(
+                    b.translations.fra.common,
+                    "fr",
+                    { ignorePunctuation: true }
+                  );
+                  break;
+                case "alphabet-za":
+                  return b.translations.fra.common.localeCompare(
+                    a.translations.fra.common,
+                    "fr",
+                    { ignorePunctuation: true }
+                  );
+                  break;
+              }
+            })
+
+            .map((country, index) => (
+              <Card key={index} country={country} />
+            ))}
+        </ul>
+      </div>
+    </div>
+  );
 };
 
 export default Countries;

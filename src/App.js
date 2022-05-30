@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import About from './pages/About';
+
 import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 
@@ -9,7 +9,7 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />}></Route>
-        <Route path="/a-propos" element={<About />} />
+       
         <Route path="*" element={<NotFound />}></Route>
       </Routes>
 
