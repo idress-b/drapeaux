@@ -1,9 +1,8 @@
 import React from "react";
 
-import Home from "./pages/Home";
-
+import Countries from "./components/Countries";
 const App = () => {
-  return <Home />;
+  return <Countries />;
 };
 
 export default App;
