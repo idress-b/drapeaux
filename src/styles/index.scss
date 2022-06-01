@@ -1,11 +1,9 @@
 @import "./settings";
 @import "./components/countries";
 @import "./components/card";
+@import "./components/popup";
 
 h1{
     margin: 2rem 0;
 }
 
-.popup{
-    position:absolute;
-}

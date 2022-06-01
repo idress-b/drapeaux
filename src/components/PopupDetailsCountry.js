@@ -1,11 +1,13 @@
 import React from "react";
 
-const DetailsCountry = (props) => {
-  return (
+const PopupDetailsCountry = (props) => {
+  return props.trigger ? (
     <div className="popup">
-      props.children
+      <div className="popup-inner">{props.children}</div>
     </div>
+  ) : (
+    ""
   );
 };
 
-export default DetailsCountry;
+export default PopupDetailsCountry;

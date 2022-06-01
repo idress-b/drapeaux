@@ -13,7 +13,10 @@ const Countries = () => {
   useEffect(() => {
     axios
       .get("https://restcountries.com/v3.1/all")
-      .then((res) => setData(res.data));
+      .then((res) => 
+        setData(res.data)
+      
+     );
   }, []);
 
   return (
@@ -98,10 +101,10 @@ const Countries = () => {
               switch (selectedSort) {
                 case "population-croissante":
                   return b.population - a.population;
-                  break;
+               
                 case "population-decroissante":
                   return a.population - b.population;
-                  break;
+                
                 case "alphabet-az":
                   /* permet de trier par ordre alphabétique en tenant compte de la ponctuation*/
                   return a.translations.fra.common.localeCompare(
@@ -109,14 +112,15 @@ const Countries = () => {
                     "fr",
                     { ignorePunctuation: true }
                   );
-                  break;
+                
                 case "alphabet-za":
                   return b.translations.fra.common.localeCompare(
                     a.translations.fra.common,
                     "fr",
                     { ignorePunctuation: true }
                   );
-                  break;
+                 
+                  default: return null;
               }
             })
 
